@@ -19,8 +19,15 @@ export function ProtectedRoute({
   requireCesaAdmin,
   disallowGuest,
 }: ProtectedRouteProps) {
-  const { isAuthenticated, isGuest, auth } = useAuthStore();
+  const { isAuthenticated, isGuest, auth, _hasHydrated } = useAuthStore();
   const location = useLocation();
+
+  // Wait for Zustand to rehydrate from localStorage before making routing decisions.
+  // Without this, a page refresh would briefly see isAuthenticated=false and
+  // redirect the user to /login even though they are logged in.
+  if (!_hasHydrated) {
+    return null;
+  }
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace state={{ from: location }} />;
@@ -43,3 +50,4 @@ export function ProtectedRoute({
 
   return <Outlet />;
 }
+

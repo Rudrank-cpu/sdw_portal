@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import type { AuthInfo, User } from '@/types/api';
 
 interface AuthState {
@@ -9,6 +9,8 @@ interface AuthState {
   refreshToken: string | null;
   isAuthenticated: boolean;
   isGuest: boolean;
+  _hasHydrated: boolean;
+  setHasHydrated: (state: boolean) => void;
   setSession: (user: User, auth: AuthInfo, accessToken: string, refreshToken: string) => void;
   setGuestSession: () => void;
   setTokens: (accessToken: string, refreshToken: string) => void;
@@ -24,6 +26,9 @@ export const useAuthStore = create<AuthState>()(
       refreshToken: null,
       isAuthenticated: false,
       isGuest: false,
+      _hasHydrated: false,
+
+      setHasHydrated: (state) => set({ _hasHydrated: state }),
 
       setSession: (user, auth, accessToken, refreshToken) =>
         set({ user, auth, accessToken, refreshToken, isAuthenticated: true, isGuest: false }),
@@ -64,6 +69,10 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'cesa-sdw-auth', // localStorage key
+      storage: createJSONStorage(() => localStorage),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { api } from '@/lib/api';
 import type { ApiResponse, AuthInfo, Tokens, User, Year } from '@/types/api';
 
@@ -21,6 +20,27 @@ export interface ForgotPasswordPayload {
 }
 
 export interface ForgotPasswordResponse {
+  message: string;
+}
+
+export interface VerifyResetCodePayload {
+  prnOrEmail: string;
+  code: string;
+}
+
+export interface VerifyResetCodeResponse {
+  valid: boolean;
+  resetToken?: string;
+  message?: string;
+}
+
+export interface ResetPasswordPayload {
+  prnOrEmail: string;
+  code: string;
+  newPassword: string;
+}
+
+export interface ResetPasswordResponse {
   message: string;
 }
 
@@ -80,17 +100,13 @@ export const updateCardBackground = (cardBackground: string) =>
 export const removeCardBackground = () =>
   api.delete<ApiResponse<UserProfileResponse>>('/users/me/card-background').then((r) => r.data.data);
 
-export const forgotPassword = async (payload: ForgotPasswordPayload): Promise<ForgotPasswordResponse> => {
-  try {
-    const res = await api.post<ApiResponse<ForgotPasswordResponse>>('/auth/forgot-password', payload);
-    return res.data.data;
-  } catch (err: unknown) {
-    // If the backend endpoint is not yet implemented (e.g. 404/501), gracefully fall back
-    if (axios.isAxiosError(err) && (err.response?.status === 404 || err.response?.status === 501)) {
-      return {
-        message: 'Password reset instructions have been sent to your registered institutional email address.',
-      };
-    }
-    throw err;
-  }
-};
+export const forgotPassword = (payload: ForgotPasswordPayload): Promise<ForgotPasswordResponse> =>
+  api
+    .post<ApiResponse<ForgotPasswordResponse>>('/auth/forgot-password', payload)
+    .then((r) => r.data.data);
+
+export const resetPassword = (payload: ResetPasswordPayload): Promise<ResetPasswordResponse> =>
+  api
+    .post<ApiResponse<ResetPasswordResponse>>('/auth/reset-password', payload)
+    .then((r) => r.data.data);
+
