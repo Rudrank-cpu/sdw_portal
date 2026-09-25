@@ -7,7 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { login } from '../api';
 import { useAuthStore } from '@/store/auth';
-import { UserIcon } from '@/components/ui/Icons';
+import { EyeIcon, EyeOffIcon, UserIcon } from '@/components/ui/Icons';
 
 const schema = z.object({
   prnOrEmail: z.string().min(1, 'PRN or email is required'),
@@ -23,6 +23,7 @@ export function LoginPage() {
   const [authError, setAuthError] = useState<string | null>(
     () => (location.state?.error as string | undefined) || null
   );
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated && !isGuest) {
@@ -117,19 +118,29 @@ export function LoginPage() {
               Forgot password?
             </Link>
           </div>
-          <input
-            type="password"
-            {...register('password', {
-              onChange: () => {
-                if (authError) setAuthError(null);
-              },
-            })}
-            className={`w-full rounded-md border px-3 py-2 text-sm dark:bg-gray-900 ${
-              authError === 'wrong password entered'
-                ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500 dark:border-red-500'
-                : 'dark:border-gray-700'
-            }`}
-          />
+          <div className="relative">
+            <input
+              {...register('password', {
+                onChange: () => {
+                  if (authError) setAuthError(null);
+                },
+              })}
+              type={showPassword ? 'text' : 'password'}
+              className={`w-full rounded-md border px-3 py-2 pr-10 text-sm dark:bg-gray-900 ${
+                authError === 'wrong password entered'
+                  ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500 dark:border-red-500'
+                  : 'dark:border-gray-700'
+              }`}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((value) => !value)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              className="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            >
+              {showPassword ? <EyeOffIcon className="h-4 w-4" /> : <EyeIcon className="h-4 w-4" />}
+            </button>
+          </div>
           {errors.password ? (
             <p className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.password.message}</p>
           ) : authError === 'wrong password entered' ? (

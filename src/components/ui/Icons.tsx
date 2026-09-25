@@ -142,6 +142,23 @@ export function MegaphoneIcon({ className = 'h-5 w-5', ...props }: IconProps) {
   );
 }
 
+export function EyeIcon({ className = 'h-5 w-5', ...props }: IconProps) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12s3.5-6 9.75-6 9.75 6 9.75 6-3.5 6-9.75 6-9.75-6-9.75-6z" />
+      <circle cx="12" cy="12" r="2.5" />
+    </svg>
+  );
+}
+
+export function EyeOffIcon({ className = 'h-5 w-5', ...props }: IconProps) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 3l18 18M10.58 10.59a2 2 0 002.83 2.83M9.88 5.09A10.74 10.74 0 0112 5c6.25 0 9.75 7 9.75 7a17.1 17.1 0 01-3.06 3.9M6.23 6.23C3.57 8.08 2.25 12 2.25 12S5.75 19 12 19a10.74 10.74 0 004.12-.82" />
+    </svg>
+  );
+}
+
 export function CheckIcon({ className = 'h-5 w-5', ...props }: IconProps) {
   return (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} {...props}>

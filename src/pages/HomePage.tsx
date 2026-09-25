@@ -2,7 +2,6 @@ import { useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useAuthStore } from "@/store/auth";
-import { useThemeStore } from "@/store/theme";
 import { EVENT_CATEGORY_TABS, categoryForEvent } from "@/lib/eventCategories";
 import { getEvents } from "@/features/events/api";
 import { getClubs } from "@/features/clubs/api";
@@ -10,7 +9,6 @@ import type { EventSummary } from "@/types/api";
 import { Badge, Eyebrow } from "@/components/ui/Badge";
 import { Tabs } from "@/components/ui/Tabs";
 import { SearchField } from "@/components/ui/Inputs";
-import { Avatar } from "@/components/ui/Avatar";
 import { ClubLogo } from "@/components/ui/ClubLogo";
 import { Spinner, ErrorMessage, EmptyState } from "@/components/ui/States";
 import { EventListRow } from "@/components/ui/Rows";
@@ -22,16 +20,12 @@ import {
 } from "@/lib/eventUtils";
 import {
   MapPinIcon,
-  SunIcon,
-  MoonIcon,
   MegaphoneIcon,
   BuildingIcon,
   TrophyIcon,
 } from "@/components/ui/Icons";
 
 export function HomePage() {
-  const theme = useThemeStore((s) => s.theme);
-  const toggleTheme = useThemeStore((s) => s.toggleTheme);
   const [search, setSearch] = useState("");
   const [category, setCategory] =
     useState<(typeof EVENT_CATEGORY_TABS)[number]["value"]>("All");
@@ -100,44 +94,6 @@ export function HomePage() {
             {firstName}
           </h1>
           <Eyebrow className="mt-2">CESA Community</Eyebrow>
-        </div>
-        <div className="flex shrink-0 items-center gap-2">
-          <button
-            type="button"
-            onClick={toggleTheme}
-            aria-label={
-              theme === "dark"
-                ? "Switch to light theme"
-                : "Switch to dark theme"
-            }
-            className="ui-icon-button"
-          >
-            {theme === "dark" ? (
-              <SunIcon className="h-5 w-5 text-gold" />
-            ) : (
-              <MoonIcon className="h-5 w-5" />
-            )}
-          </button>
-          {isGuest ? (
-            <Link
-              to="/login"
-              className="ui-button ui-button-primary ui-button-sm"
-            >
-              Sign In
-            </Link>
-          ) : (
-            <Link
-              to="/profile"
-              aria-label="Go to profile"
-              className="ui-icon-button ui-icon-button-plain"
-            >
-              <Avatar
-                name={user?.name ?? "You"}
-                src={user?.profilePicture || user?.avatar}
-                size="sm"
-              />
-            </Link>
-          )}
         </div>
       </header>
 

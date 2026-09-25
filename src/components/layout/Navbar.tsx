@@ -114,8 +114,8 @@ export function Navbar() {
 
   return (
     <>
-      <nav className="relative z-50 border-b border-gray-200 bg-white/85 shadow-sm backdrop-blur-xl transition-colors dark:border-gray-800 dark:bg-gray-900/80 md:sticky md:top-0 md:mx-3 md:mt-3 md:rounded-2xl md:border md:shadow-lg">
-        <div className="mx-auto flex min-h-[64px] w-full max-w-7xl items-center gap-2 overflow-hidden px-4 py-3 sm:gap-3 md:px-5 lg:gap-4 lg:px-6">
+      <nav className="relative z-50 border-b border-gray-200 bg-white/85 shadow-sm backdrop-blur-xl transition-colors dark:border-gray-800 dark:bg-gray-900/80 lg:sticky lg:top-0 lg:mx-3 lg:mt-3 lg:rounded-2xl lg:border lg:shadow-lg">
+        <div className="mx-auto flex min-h-[64px] w-full max-w-7xl items-center gap-2 overflow-hidden px-4 py-3 sm:gap-3 lg:px-6">
 
           {/* Logo */}
           <Link
@@ -131,7 +131,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop navigation */}
-          <div className="hidden min-w-0 flex-1 items-center justify-center gap-0.5 md:flex lg:gap-1">
+          <div className="hidden min-w-0 flex-1 items-center justify-center gap-0.5 lg:flex lg:gap-1">
             {navLinks.map((link) => (
               <Link
                 key={link.to}
@@ -164,7 +164,7 @@ export function Navbar() {
             </button>
 
             {/* Desktop auth controls */}
-            <div className="hidden items-center gap-1.5 md:flex lg:gap-2">
+            <div className="hidden items-center gap-1.5 lg:flex lg:gap-2">
               {isGuest ? (
                 <div className="flex items-center gap-2">
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-800 dark:bg-amber-900/40 dark:text-amber-300">
@@ -232,7 +232,7 @@ export function Navbar() {
               onClick={() => setMenuOpen((value) => !value)}
               aria-label="Toggle navigation menu"
               aria-expanded={menuOpen}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800 md:hidden"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800 lg:hidden"
             >
               {menuOpen ? <XIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
             </button>
@@ -248,13 +248,13 @@ export function Navbar() {
             type="button"
             aria-label="Close navigation"
             onClick={() => setMenuOpen(false)}
-            className={`fixed inset-0 z-40 bg-black/40 transition-opacity duration-200 md:hidden ${
+            className={`fixed inset-0 z-40 bg-black/40 transition-opacity duration-200 lg:hidden ${
               drawerVisible ? 'opacity-100' : 'opacity-0'
             }`}
           />
 
           {/* Left panel */}
-          <aside className={`fixed left-0 top-0 z-50 flex h-full w-[270px] max-w-[80vw] flex-col rounded-r-2xl border-r border-gray-200 bg-white/95 shadow-xl backdrop-blur-xl transition-transform duration-200 ease-out dark:border-gray-800 dark:bg-gray-900/95 md:hidden ${
+          <aside className={`fixed left-0 top-0 z-50 flex h-full w-[270px] max-w-[80vw] flex-col rounded-r-2xl border-r border-gray-200 bg-white/95 shadow-xl backdrop-blur-xl transition-transform duration-200 ease-out dark:border-gray-800 dark:bg-gray-900/95 lg:hidden ${
             drawerVisible ? 'translate-x-0' : '-translate-x-full'
           }`}>
 
