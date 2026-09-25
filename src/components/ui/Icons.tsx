@@ -125,6 +125,23 @@ export function MailIcon({ className = 'h-5 w-5', ...props }: IconProps) {
   );
 }
 
+export function MapPinIcon({ className = 'h-5 w-5', ...props }: IconProps) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 21s7-5.686 7-12A7 7 0 005 9c0 6.314 7 12 7 12z" />
+      <circle cx="12" cy="9" r="2.5" />
+    </svg>
+  );
+}
+
+export function MegaphoneIcon({ className = 'h-5 w-5', ...props }: IconProps) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} {...props}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 11v2a2 2 0 002 2h2l2 5h2l-1.5-5H12l7 3V6l-7 3H5a2 2 0 00-2 2z" />
+    </svg>
+  );
+}
+
 export function CheckIcon({ className = 'h-5 w-5', ...props }: IconProps) {
   return (
     <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} {...props}>

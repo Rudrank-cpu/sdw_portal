@@ -1,10 +1,9 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
-import { useAuthStore } from '@/store/auth';
-import { HomePage } from '@/pages/HomePage';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { NotFoundPage, UnauthorizedPage } from '@/pages/StatusPages';
+import { RootRoute } from '@/routes/RootRoute';
 
 import { LoginPage } from '@/features/auth/pages/LoginPage';
 import { RegisterPage } from '@/features/auth/pages/RegisterPage';
@@ -30,14 +29,6 @@ import { AdminPortalPage } from '@/pages/AdminPortalPage';
 // When you build your module's pages, add them here inside a small PR
 // hunk — this keeps merge conflicts to a few lines instead of whole files.
 // -----------------------------------------------------------------------
-
-function RootRoute() {
-  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-  return <HomePage />;
-}
 
 export const router = createBrowserRouter([
   {
