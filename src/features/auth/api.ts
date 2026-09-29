@@ -11,7 +11,7 @@ export interface RegisterPayload {
 }
 
 export interface LoginPayload {
-  prnOrEmail: string;
+  email: string;
   password: string;
 }
 

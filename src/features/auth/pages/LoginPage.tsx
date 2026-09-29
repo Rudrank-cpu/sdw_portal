@@ -10,7 +10,7 @@ import { useAuthStore } from '@/store/auth';
 import { EyeIcon, EyeOffIcon, UserIcon } from '@/components/ui/Icons';
 
 const schema = z.object({
-  prnOrEmail: z.string().min(1, 'PRN or email is required'),
+  email: z.string().min(1, 'Email is required'),
   password: z.string().min(1, 'Password is required'),
 });
 
@@ -55,15 +55,13 @@ export function LoginPage() {
       navigate(destination);
     },
     onError: (error) => {
-      let message = 'wrong password entered';
-      if (axios.isAxiosError(error)) {
-        if (error.code === 'ERR_NETWORK' || !error.response) {
-          message = 'Unable to connect to the backend server. Please make sure the backend is running.';
-        } else {
-          // Status 401, 400, 404 or invalid credentials
-          message = 'wrong password entered';
-        }
-      }
+      const isNetworkError = axios.isAxiosError(error) && (error.code === 'ERR_NETWORK' || !error.response);
+      const status = axios.isAxiosError(error) ? error.response?.status : undefined;
+      const message = isNetworkError
+        ? 'Unable to reach the server. Please try again.'
+        : status === 400 || status === 401
+          ? 'Invalid email or password.'
+          : 'Unable to log in right now. Please try again.';
       setAuthError(message);
       setValue('password', '');
       navigate('/login', { replace: true });
@@ -99,13 +97,14 @@ export function LoginPage() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label className="mb-1 block text-sm font-medium">PRN or Email</label>
+          <label className="mb-1 block text-sm font-medium">Email</label>
           <input
-            {...register('prnOrEmail')}
+            {...register('email')}
+            type="email"
             className="w-full rounded-md border px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-900"
-            placeholder="eg. 125B1B333"
+            placeholder="name@example.com"
           />
-          {errors.prnOrEmail && <p className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.prnOrEmail.message}</p>}
+          {errors.email && <p className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.email.message}</p>}
         </div>
 
         <div>
@@ -127,7 +126,7 @@ export function LoginPage() {
               })}
               type={showPassword ? 'text' : 'password'}
               className={`w-full rounded-md border px-3 py-2 pr-10 text-sm dark:bg-gray-900 ${
-                authError === 'wrong password entered'
+                authError === 'Invalid email or password.'
                   ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500 dark:border-red-500'
                   : 'dark:border-gray-700'
               }`}
@@ -141,11 +140,7 @@ export function LoginPage() {
               {showPassword ? <EyeOffIcon className="h-4 w-4" /> : <EyeIcon className="h-4 w-4" />}
             </button>
           </div>
-          {errors.password ? (
-            <p className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.password.message}</p>
-          ) : authError === 'wrong password entered' ? (
-            <p className="mt-1 text-xs font-medium text-red-600 dark:text-red-400">wrong password entered</p>
-          ) : null}
+          {errors.password && <p className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.password.message}</p>}
         </div>
 
         {authError && (

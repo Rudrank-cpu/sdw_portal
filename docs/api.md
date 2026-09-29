@@ -184,7 +184,7 @@ Creates a new student profile. If the student previously submitted any guest ach
 ---
 
 ### 4.2 Login
-Authenticate using PRN or Email and Password. Returns the user object with both `id` and `_id`, aggregated RBAC roles and permissions across all clubs, and JWT tokens.
+Authenticate using Email and Password. Returns the user object with both `id` and `_id`, aggregated RBAC roles and permissions across all clubs, and JWT tokens.
 
 - **Method:** `POST`
 - **URL:** `/api/v1/auth/login`
@@ -194,7 +194,7 @@ Authenticate using PRN or Email and Password. Returns the user object with both 
 #### Request Body
 ```json
 {
-  "prnOrEmail": "acm.president23@pccoepune.org", // Or PRN: "123B1B001"
+  "email": "acm.president23@pccoepune.org",
   "password": "Password123!"
 }
 ```
