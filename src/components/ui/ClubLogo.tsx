@@ -14,6 +14,14 @@ const sizeClasses = {
   lg: 'h-16 w-16 text-lg',
 } as const;
 
+const officialLogosByCode: Record<string, string> = {
+  ACM: '/image/acm_logo.png',
+  'ACM-W': '/image/acmw_logo.png',
+  GDGC: '/image/gdgc_logo.png',
+  LFDT: '/image/lfdt_logo.png',
+  OWASP: '/image/owasp_logo.png',
+};
+
 const initialsFor = (club: ClubLike) => {
   const label = club.code || club.name || 'Club';
   return label
@@ -26,19 +34,20 @@ const initialsFor = (club: ClubLike) => {
 
 export function ClubLogo({ club, size = 'md' }: { club: ClubLike; size?: keyof typeof sizeClasses }) {
   const [imageFailed, setImageFailed] = useState(false);
+  const code = (club.code || '').toUpperCase();
+  const logoUrl = officialLogosByCode[code] ?? club.logoUrl;
 
-  if (club.logoUrl && !imageFailed) {
+  if (logoUrl && !imageFailed) {
     return (
       <img
-        src={club.logoUrl}
+        src={logoUrl}
         alt={`${club.name ?? club.code ?? 'Club'} logo`}
         onError={() => setImageFailed(true)}
-        className={`${sizeClasses[size]} shrink-0 rounded-full border border-white/10 object-cover`}
+        className={`${sizeClasses[size]} shrink-0 rounded-full border border-white/10 object-contain`}
       />
     );
   }
 
-  const code = (club.code || '').toUpperCase();
   if (code === 'ACM') return <AcmLogo className={`${sizeClasses[size]} shrink-0`} />;
   if (code === 'OWASP') return <OwaspLogo className={`${sizeClasses[size]} shrink-0`} />;
   if (code === 'GDGC') return <GdgcLogo className={`${sizeClasses[size]} shrink-0`} />;

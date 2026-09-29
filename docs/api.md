@@ -1,7 +1,7 @@
 # CESA-SDW Portal - Frontend API Documentation
 
 > **Version:** 2.1  
-> **Base URL:** `http://localhost:5000/api/v1` (replace with production domain in staging/production)  
+> **Base URL:** Set `VITE_API_BASE_URL` to the backend API URL. The frontend defaults to `https://sdw-portal-backend.onrender.com/api/v1` when the variable is unset; local development can use `http://localhost:5000/api/v1`.
 > **Content-Type:** `application/json`
 
 ---
@@ -142,8 +142,8 @@ Creates a new student profile. If the student previously submitted any guest ach
 #### Request Body
 ```json
 {
-  "prn": "STU-2026-003",
-  "email": "student3@institution.edu",
+  "prn": "126B1B003",
+  "email": "student.three26@pccoepune.org",
   "name": "Neha Sharma",
   "password": "Password123!",
   "branch": "Computer Engineering",
@@ -161,8 +161,8 @@ Creates a new student profile. If the student previously submitted any guest ach
     "user": {
       "id": "66e57b98f1234567890abcd1",
       "_id": "66e57b98f1234567890abcd1",
-      "prn": "STU-2026-003",
-      "email": "student3@institution.edu",
+      "prn": "126B1B003",
+      "email": "student.three26@pccoepune.org",
       "name": "Neha Sharma",
       "branch": "Computer Engineering",
       "year": "TE",
@@ -194,7 +194,7 @@ Authenticate using PRN or Email and Password. Returns the user object with both 
 #### Request Body
 ```json
 {
-  "prnOrEmail": "acm.president@institution.edu", // Or PRN: "ACM-PRES-001"
+  "prnOrEmail": "acm.president23@pccoepune.org", // Or PRN: "123B1B001"
   "password": "Password123!"
 }
 ```
@@ -209,8 +209,8 @@ Authenticate using PRN or Email and Password. Returns the user object with both 
     "user": {
       "id": "66e57b98f1234567890abcd2",
       "_id": "66e57b98f1234567890abcd2",
-      "prn": "ACM-PRES-001",
-      "email": "acm.president@institution.edu",
+      "prn": "123B1B001",
+      "email": "acm.president23@pccoepune.org",
       "name": "Aarav Sharma",
       "branch": "Computer Engineering",
       "year": "BE",
@@ -336,8 +336,8 @@ Returns the logged-in user profile, active club memberships, and union of permis
     "user": {
       "id": "66e57b98f1234567890abcd2",
       "_id": "66e57b98f1234567890abcd2",
-      "prn": "ACM-PRES-001",
-      "email": "acm.president@institution.edu",
+      "prn": "123B1B001",
+      "email": "acm.president23@pccoepune.org",
       "name": "Aarav Sharma",
       "branch": "Computer Engineering",
       "year": "BE",
@@ -359,6 +359,26 @@ Returns the logged-in user profile, active club memberships, and union of permis
 ---
 
 ## 5. Clubs Endpoints (`/clubs`)
+
+### Club identity and logo rendering
+The frontend continues to load club records from the backend. The stable `code` field selects the portal's official local logo for these clubs, while `_id` remains the identifier used by club API endpoints:
+
+| Backend `code` | Portal logo asset |
+| :--- | :--- |
+| `ACM` | `/image/acm_logo.png` |
+| `ACM-W` | `/image/acmw_logo.png` |
+| `GDGC` | `/image/gdgc_logo.png` |
+| `LFDT` | `/image/lfdt_logo.png` |
+| `OWASP` | `/image/owasp_logo.png` |
+
+For these five codes, the frontend displays the local asset ahead of the backend `logoUrl`. For other or unmapped clubs, it uses the returned `logoUrl` and then the existing frontend fallback. The assets are served from the frontend's `public/image/` directory; this visual mapping does not change API requests, stored backend logo URLs, or response structures. No backend endpoint or backend change is required for these portal logos.
+
+> **Club Editing & Administrative Permissions:**
+> Club editing routes (Sections 5.5 to 5.12) are accessible to:
+> 1. **Master Admin** (superuser access across all clubs)
+> 2. **CESA Scope Admins** (institutional coordinator scope across clubs)
+> 3. **Club Admins** of the specific target club (`isClubAdmin: true`, roles with `canBeAdmin: true`, or `President`/`Club Admin` role in that club).
+> Club Admins are securely restricted to their assigned club(s) and cannot modify other clubs. Setting or removing coordinator status (`isCoordinator`) remains strictly restricted to Master Admin and CESA Scope Admins.
 
 ### 5.1 Get All Clubs
 List all active clubs with coordinator status.
@@ -465,8 +485,8 @@ Returns all configured roles, permissions, and current active executive board me
         "user": {
           "_id": "66e57b98f1234567890abcd6",
           "name": "Vikram Joshi",
-          "email": "owasp.president@institution.edu",
-          "prn": "OWASP-PRES-001",
+          "email": "owasp.president24@pccoepune.org",
+          "prn": "124B1B001",
           "branch": "Computer Engineering",
           "year": "BE",
           "avatar": ""
@@ -505,8 +525,8 @@ Returns only the active executive team of a club.
       "user": {
         "_id": "66e57b98f1234567890abcd6",
         "name": "Vikram Joshi",
-        "email": "owasp.president@institution.edu",
-        "prn": "OWASP-PRES-001",
+        "email": "owasp.president24@pccoepune.org",
+        "prn": "124B1B001",
         "branch": "Computer Engineering",
         "year": "BE",
         "avatar": ""
@@ -1011,7 +1031,7 @@ Used by organizers at the event entrance to check in attendees via QR ticket cod
 #### Request Body
 ```json
 {
-  "ticketCode": "TKT-3C7D-891E" // Or "prn": "STU-2026-001"
+  "ticketCode": "TKT-3C7D-891E" // Or "prn": "126B1B001"
 }
 ```
 
@@ -1029,7 +1049,7 @@ Used by organizers at the event entrance to check in attendees via QR ticket cod
     "status": "ATTENDED",
     "userId": {
       "name": "Aditya Kulkarni",
-      "prn": "STU-2026-001"
+      "prn": "126B1B001"
     }
   }
 }
@@ -1169,8 +1189,8 @@ Allows non-logged-in students or guests to submit achievements using email and P
 ```json
 {
   "name": "Sameer Joshi",
-  "email": "sameer.joshi@institution.edu",
-  "prn": "STU-2026-099",
+  "email": "sameer.joshi26@pccoepune.org",
+  "prn": "126B1B099",
   "title": "Speaker at Cloud Community Day 2026",
   "description": "Delivered a session on Kubernetes Container Security.",
   "achievementTypeId": "66e57b98f1234567890abd03",
@@ -1227,14 +1247,14 @@ Returns all achievements submitted by the currently logged-in student, including
       "assignedDocReviewerId": {
         "_id": "66e57b98f1234567890abcd5",
         "name": "Tanvi Patil",
-        "email": "acm.doc@institution.edu"
+        "email": "acm.doc24@pccoepune.org"
       },
       "reviewHistory": [
         {
           "reviewerId": {
             "_id": "66e57b98f1234567890abcd5",
             "name": "Tanvi Patil",
-            "email": "acm.doc@institution.edu"
+            "email": "acm.doc24@pccoepune.org"
           },
           "action": "PENDING_SECRETARY_APPROVAL",
           "notes": "Verified certificate QR and checked against official portal.",
@@ -1245,7 +1265,7 @@ Returns all achievements submitted by the currently logged-in student, including
         "approvedBy": {
           "_id": "66e57b98f1234567890abcd3",
           "name": "Rohan Gupta",
-          "email": "acm.secretary@institution.edu"
+          "email": "acm.secretary23@pccoepune.org"
         },
         "approvedAt": "2026-09-14T08:45:00.000Z",
         "approverRole": "Secretary",
@@ -1290,8 +1310,8 @@ Fetches complete details of a specific achievement by ID, including evidence URL
     "studentId": {
       "_id": "66e57b98f1234567890abcd7",
       "name": "Aditya Kulkarni",
-      "prn": "STU-2026-001",
-      "email": "aditya.kulkarni@institution.edu",
+      "prn": "126B1B001",
+      "email": "aditya.kulkarni26@pccoepune.org",
       "branch": "Computer Engineering",
       "year": "TE"
     },
@@ -1317,14 +1337,14 @@ Fetches complete details of a specific achievement by ID, including evidence URL
     "assignedDocReviewerId": {
       "_id": "66e57b98f1234567890abcd5",
       "name": "Tanvi Patil",
-      "email": "acm.doc@institution.edu"
+      "email": "acm.doc24@pccoepune.org"
     },
     "reviewHistory": [
       {
         "reviewerId": {
           "_id": "66e57b98f1234567890abcd5",
           "name": "Tanvi Patil",
-          "email": "acm.doc@institution.edu"
+          "email": "acm.doc24@pccoepune.org"
         },
         "action": "PENDING_SECRETARY_APPROVAL",
         "notes": "Verified certificate QR and checked against official portal.",
@@ -1335,7 +1355,7 @@ Fetches complete details of a specific achievement by ID, including evidence URL
       "approvedBy": {
         "_id": "66e57b98f1234567890abcd3",
         "name": "Rohan Gupta",
-        "email": "acm.secretary@institution.edu"
+        "email": "acm.secretary23@pccoepune.org"
       },
       "approvedAt": "2026-09-14T08:45:00.000Z",
       "approverRole": "Secretary",
@@ -1382,7 +1402,7 @@ Public feed / gallery of verified and authenticated student achievements across 
       "studentId": {
         "_id": "66e57b98f1234567890abcd7",
         "name": "Aditya Kulkarni",
-        "prn": "STU-2026-001",
+        "prn": "126B1B001",
         "branch": "Computer Engineering",
         "year": "TE",
         "avatar": ""
@@ -1595,7 +1615,7 @@ Public endpoint showing institution-wide rankings for the current active semeste
       "user": {
         "_id": "66e57b98f1234567890abcd7",
         "name": "Aditya Kulkarni",
-        "prn": "STU-2026-001",
+        "prn": "126B1B001",
         "branch": "Computer Engineering",
         "year": "TE",
         "avatar": ""
@@ -1642,7 +1662,7 @@ Returns a student's public ranking, total points, and list of authenticated achi
   "data": {
     "user": {
       "name": "Aditya Kulkarni",
-      "prn": "STU-2026-001",
+      "prn": "126B1B001",
       "branch": "Computer Engineering",
       "year": "TE"
     },
@@ -1801,8 +1821,8 @@ Returns the authenticated student's profile including profile picture, card back
   "data": {
     "user": {
       "id": "6aa7b30f107ef0501eeab265",
-      "prn": "STU-2026-001",
-      "email": "student1@institution.edu",
+      "prn": "126B1B001",
+      "email": "student.one26@pccoepune.org",
       "name": "Aditya Kulkarni",
       "branch": "Computer Engineering",
       "year": "TE",
@@ -2113,6 +2133,8 @@ Cloudinary directly returns `{ "secure_url": "https://res.cloudinary.com/...", .
 ## 14. Master Admin Endpoints (`/admin`)
 
 > **Security Note:** All endpoints in this section are JWT protected and strictly restricted to the **Master Admin** (`isMasterAdmin: true`). The system enforces a strict business rule: **there can only ever be one Master Admin**.
+>
+> **PRN Case-Insensitivity Notice:** All PRN operations across the entire platform (Registration, Login, Whitelist addition/lookup/editing/deletion, and Student management) are strictly case-insensitive. For example, `124b1b100`, `124B1B100`, and `124b1B100` are identical and resolve to the exact same whitelisted record. In the database, PRNs are normalized to uppercase for consistent storage.
 
 ---
 
@@ -2128,7 +2150,7 @@ Registers a student PRN number into the whitelist. Only whitelisted PRNs are per
 {
   "prn": "125B1B350",
   "name": "Rohan Deshpande",
-  "email": "rohan.deshpande@pccoepune.org",
+  "email": "rohan.deshpande24@pccoepune.org",
   "branch": "Computer Engineering",
   "year": "TE"
 }
@@ -2136,7 +2158,43 @@ Registers a student PRN number into the whitelist. Only whitelisted PRNs are per
 
 ---
 
-### 14.2 Edit Registered PRN
+### 14.2 Get Single Whitelisted PRN Details
+Fetches detailed information for a specific whitelisted PRN, including associated student registration details if already registered. Accepts PRN in any case (`124b1b100`, `124B1B100`, etc.) or the record's MongoDB `_id`.
+
+- **Method:** `GET`
+- **URL:** `/api/v1/admin/prns/:prn`
+- **Auth Required:** Yes (Master Admin only)
+
+#### Success Response (`200 OK`)
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "Whitelisted PRN retrieved successfully",
+  "data": {
+    "_id": "6aa7b30f107ef0501eeab999",
+    "prn": "124B1B100",
+    "name": "SAYYAD DANISH RIYAZ",
+    "email": "danish.sayyad24@pccoepune.org",
+    "branch": "Computer Engineering",
+    "year": "TE",
+    "isRegistered": true,
+    "registeredUser": {
+      "_id": "6aa7b30f107ef0501eeab101",
+      "name": "SAYYAD DANISH RIYAZ",
+      "email": "danish.sayyad24@pccoepune.org",
+      "branch": "Computer Engineering",
+      "year": "TE"
+    },
+    "createdAt": "2026-09-21T18:00:00.000Z",
+    "updatedAt": "2026-09-21T18:00:00.000Z"
+  }
+}
+```
+
+---
+
+### 14.3 Edit Registered PRN
 Edits an existing whitelisted PRN record (updates the PRN value, name, branch, etc.). If the student has already registered, their User account PRN is automatically kept in sync.
 
 - **Method:** `PATCH`
@@ -2146,7 +2204,7 @@ Edits an existing whitelisted PRN record (updates the PRN value, name, branch, e
 #### Request Body
 ```json
 {
-  "newPrn": "125B1B350-NEW",
+  "newPrn": "125B1B351",
   "name": "Rohan K. Deshpande",
   "branch": "Information Technology",
   "year": "BE"
@@ -2155,7 +2213,7 @@ Edits an existing whitelisted PRN record (updates the PRN value, name, branch, e
 
 ---
 
-### 14.3 Delete PRN from Whitelist
+### 14.4 Delete PRN from Whitelist
 Deletes a PRN from the whitelist. If that student attempts to log in afterwards, their login is blocked with `"PRN not registered"`.
 
 - **Method:** `DELETE`
@@ -2164,7 +2222,7 @@ Deletes a PRN from the whitelist. If that student attempts to log in afterwards,
 
 ---
 
-### 14.4 Bulk Add PRNs to Whitelist
+### 14.5 Bulk Add PRNs to Whitelist
 Bulk registers an array of PRNs into the whitelist.
 
 - **Method:** `POST`
@@ -2184,7 +2242,7 @@ Bulk registers an array of PRNs into the whitelist.
 
 ---
 
-### 14.5 Bulk Delete PRNs from Whitelist
+### 14.6 Bulk Delete PRNs from Whitelist
 Bulk deletes an array of PRNs from the whitelist.
 
 - **Method:** `DELETE`
@@ -2200,7 +2258,7 @@ Bulk deletes an array of PRNs from the whitelist.
 
 ---
 
-### 14.6 List Whitelisted PRNs
+### 14.7 List Whitelisted PRNs (Paginated)
 Returns a paginated list of all PRNs in the whitelist, with optional filtering by registration status and search term.
 
 - **Method:** `GET`
@@ -2210,7 +2268,66 @@ Returns a paginated list of all PRNs in the whitelist, with optional filtering b
 
 ---
 
-### 14.7 Assign Club Admin Position
+### 14.8 Fetch All Whitelisted PRNs (Unpaginated)
+Fetches the complete, unpaginated list of whitelisted PRNs, returning total count, an array of PRN strings, and full item records. Supports optional search filter and registration status filter.
+
+- **Method:** `GET`
+- **URL:** `/api/v1/admin/prns/all`
+- **Aliases:**
+  - `GET /api/v1/admin/whitelisted-prns`
+  - `GET /api/v1/admin/prns?all=true`
+- **Auth Required:** Yes (Master Admin only)
+- **Query Parameters:**
+  - `search` (optional string): filter by PRN, student name, or email
+  - `isRegistered` (optional boolean): filter by `true` or `false`
+
+#### Success Response (`200 OK`)
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "All whitelisted PRNs retrieved successfully",
+  "data": {
+    "total": 31,
+    "prns": [
+      "125B1B001",
+      "125B1B002",
+      "125B1B350"
+    ],
+    "items": [
+      {
+        "_id": "6aa7b30f107ef0501eeab265",
+        "prn": "125B1B001",
+        "name": "Rohan Deshpande",
+        "email": "rohan.deshpande24@pccoepune.org",
+        "branch": "Computer Engineering",
+        "year": "TE",
+        "isRegistered": true,
+        "registeredUser": {
+          "_id": "6aa7b30f107ef0501eeab266",
+          "name": "Rohan Deshpande",
+          "email": "rohan.deshpande24@pccoepune.org",
+          "prn": "125B1B001",
+          "role": "STUDENT",
+          "avatar": ""
+        },
+        "addedBy": {
+          "_id": "6aa7b30f107ef0501eeab200",
+          "name": "Master Administrator",
+          "email": "master.admin22@pccoepune.org",
+          "prn": "MASTER-ADMIN-001"
+        },
+        "createdAt": "2026-09-21T18:00:00.000Z",
+        "updatedAt": "2026-09-21T18:30:00.000Z"
+      }
+    ]
+  }
+}
+```
+
+---
+
+### 14.9 Assign Club Admin Position
 Assigns a regular student as a Club Admin for a specific club. Grants them the club's administrator role and elevates their user role to `CLUB_ADMIN`.
 
 - **Method:** `POST`
@@ -2227,7 +2344,7 @@ Assigns a regular student as a Club Admin for a specific club. Grants them the c
 
 ---
 
-### 14.8 Remove Club Admin Position
+### 14.10 Remove Club Admin Position
 Removes the Club Admin role from a student for a specific club (demoting them back to regular Member). If they have no other club admin roles, their user role returns to `STUDENT`.
 
 - **Method:** `DELETE`
@@ -2236,7 +2353,7 @@ Removes the Club Admin role from a student for a specific club (demoting them ba
 
 ---
 
-### 14.9 List Club Admins
+### 14.11 List Club Admins
 Lists all current administrators for a specified club.
 
 - **Method:** `GET`
@@ -2245,7 +2362,7 @@ Lists all current administrators for a specified club.
 
 ---
 
-### 14.10 Roles CRUD (Configure which roles can be admin)
+### 14.12 Roles CRUD (Configure which roles can be admin)
 Master Admin has full CRUD over club roles, including toggling `canBeAdmin: true/false`.
 
 - `POST /api/v1/admin/roles` — Create role:
@@ -2266,7 +2383,7 @@ Master Admin has full CRUD over club roles, including toggling `canBeAdmin: true
 
 ---
 
-### 14.11 Clubs CRUD (Master Admin)
+### 14.13 Clubs CRUD (Master Admin)
 Master Admin can create, inspect, update, or deactivate any club.
 
 - `POST /api/v1/admin/clubs` — Create new club
@@ -2277,7 +2394,7 @@ Master Admin can create, inspect, update, or deactivate any club.
 
 ---
 
-### 14.12 Events CRUD (Master Admin)
+### 14.14 Events CRUD (Master Admin)
 Master Admin can create, inspect, update, or delete events across any club.
 
 - `POST /api/v1/admin/events` — Create event for any club
@@ -2288,7 +2405,7 @@ Master Admin can create, inspect, update, or delete events across any club.
 
 ---
 
-### 14.13 Students CRUD (Master Admin)
+### 14.15 Students CRUD (Master Admin)
 Master Admin can manage all students in the portal.
 
 - `POST /api/v1/admin/students` — Create new student account (auto-whitelists PRN)
@@ -2299,7 +2416,7 @@ Master Admin can manage all students in the portal.
 
 ---
 
-### 14.14 Transfer Master Admin Role
+### 14.16 Transfer Master Admin Role
 Transfers the single Master Admin role to another student. Ensures that only one Master Admin ever exists.
 
 - **Method:** `POST`
