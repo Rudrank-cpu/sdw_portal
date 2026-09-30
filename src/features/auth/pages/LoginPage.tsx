@@ -77,7 +77,7 @@ export function LoginPage() {
 
   const onSubmit = (values: FormValues) => {
     setAuthError(null);
-    mutation.mutate({ prnOrEmail: values.prn.trim().toUpperCase(), password: values.password });
+    mutation.mutate({ prn: values.prn.trim().toUpperCase(), password: values.password });
   };
 
   const handleGuestLogin = () => {
@@ -103,10 +103,14 @@ export function LoginPage() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label className="mb-1 block text-sm font-medium">PRN</label>
+          <label htmlFor="login-prn" className="mb-1 block text-sm font-medium">
+            PRN
+          </label>
           <input
+            id="login-prn"
             {...register('prn')}
             type="text"
+            autoComplete="username"
             autoCapitalize="characters"
             autoCorrect="off"
             spellCheck={false}

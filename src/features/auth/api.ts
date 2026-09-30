@@ -11,7 +11,7 @@ export interface RegisterPayload {
 }
 
 export interface LoginPayload {
-  prnOrEmail: string;
+  prn: string;
   password: string;
 }
 
@@ -49,7 +49,12 @@ export const registerStudent = (payload: RegisterPayload) =>
   api.post<ApiResponse<SessionData>>('/auth/register', payload).then((r) => r.data.data);
 
 export const login = (payload: LoginPayload) =>
-  api.post<ApiResponse<SessionData>>('/auth/login', payload).then((r) => r.data.data);
+  api
+    .post<ApiResponse<SessionData>>('/auth/login', {
+      prnOrEmail: payload.prn,
+      password: payload.password,
+    })
+    .then((r) => r.data.data);
 
 export const logout = (refreshToken: string) =>
   api.post<ApiResponse<null>>('/auth/logout', { refreshToken }).then((r) => r.data.data);
