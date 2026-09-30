@@ -9,13 +9,13 @@ import { login } from '../api';
 import { useAuthStore } from '@/store/auth';
 import { EyeIcon, EyeOffIcon, UserIcon } from '@/components/ui/Icons';
 
-const PRN_REGEX = /^\d{5}[A-Za-z]\d[A-Za-z]\d{3}$/;
+const PRN_REGEX = /^12\dB1[A-Za-z0-9]\d{3}$/;
 
 const schema = z.object({
   prn: z
     .string()
     .min(1, 'PRN is required')
-    .regex(PRN_REGEX, 'Enter a valid PRN (e.g. 12345B1B333)'),
+    .regex(PRN_REGEX, 'Enter a valid PRN (e.g. 125B1B333)'),
   password: z.string().min(1, 'Password is required'),
 });
 
@@ -115,7 +115,7 @@ export function LoginPage() {
             autoCorrect="off"
             spellCheck={false}
             className="w-full rounded-md border px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-900"
-            placeholder="e.g. 12345B1B333"
+            placeholder="e.g. 125B1B333"
             onBlur={() => trigger('prn')}
           />
           {errors.prn && (
