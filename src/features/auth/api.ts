@@ -75,6 +75,7 @@ export const getUserProfile = () =>
 
 export interface UpdateUserProfilePayload {
   name?: string;
+  email?: string;
   branch?: string;
   year?: Year;
   profilePicture?: string;
