@@ -1,7 +1,7 @@
 # CESA-SDW Portal - Frontend API Documentation
 
 > **Version:** 2.1  
-> **Base URL:** Set `VITE_API_BASE_URL` to the backend API URL. The frontend defaults to `https://sdw-portal-backend.onrender.com/api/v1` when the variable is unset; local development can use `http://localhost:5000/api/v1`.
+> **Base URL:** `https://sdw-portal-backend.onrender.com/api/v1` (local development: `http://localhost:5000/api/v1`; override with `VITE_API_BASE_URL`)
 > **Content-Type:** `application/json`
 
 ---
@@ -184,7 +184,7 @@ Creates a new student profile. If the student previously submitted any guest ach
 ---
 
 ### 4.2 Login
-Authenticate using Email and Password. Returns the user object with both `id` and `_id`, aggregated RBAC roles and permissions across all clubs, and JWT tokens.
+Authenticate using PRN or Email and Password. Returns the user object with both `id` and `_id`, aggregated RBAC roles and permissions across all clubs, and JWT tokens.
 
 - **Method:** `POST`
 - **URL:** `/api/v1/auth/login`
@@ -194,10 +194,11 @@ Authenticate using Email and Password. Returns the user object with both `id` an
 #### Request Body
 ```json
 {
-  "email": "acm.president23@pccoepune.org",
+  "prnOrEmail": "acm.president23@pccoepune.org",
   "password": "Password123!"
 }
 ```
+Use either the student's institutional email or PRN as `prnOrEmail`.
 
 #### Success Response (`200 OK`)
 ```json
@@ -359,19 +360,6 @@ Returns the logged-in user profile, active club memberships, and union of permis
 ---
 
 ## 5. Clubs Endpoints (`/clubs`)
-
-### Club identity and logo rendering
-The frontend continues to load club records from the backend. The stable `code` field selects the portal's official local logo for these clubs, while `_id` remains the identifier used by club API endpoints:
-
-| Backend `code` | Portal logo asset |
-| :--- | :--- |
-| `ACM` | `/image/acm_logo.png` |
-| `ACM-W` | `/image/acmw_logo.png` |
-| `GDGC` | `/image/gdgc_logo.png` |
-| `LFDT` | `/image/lfdt_logo.png` |
-| `OWASP` | `/image/owasp_logo.png` |
-
-For these five codes, the frontend displays the local asset ahead of the backend `logoUrl`. For other or unmapped clubs, it uses the returned `logoUrl` and then the existing frontend fallback. The assets are served from the frontend's `public/image/` directory; this visual mapping does not change API requests, stored backend logo URLs, or response structures. No backend endpoint or backend change is required for these portal logos.
 
 > **Club Editing & Administrative Permissions:**
 > Club editing routes (Sections 5.5 to 5.12) are accessible to:

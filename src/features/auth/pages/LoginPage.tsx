@@ -10,7 +10,7 @@ import { useAuthStore } from '@/store/auth';
 import { EyeIcon, EyeOffIcon, UserIcon } from '@/components/ui/Icons';
 
 const schema = z.object({
-  email: z.string().min(1, 'Email is required'),
+  prnOrEmail: z.string().min(1, 'PRN or email is required'),
   password: z.string().min(1, 'Password is required'),
 });
 
@@ -60,7 +60,7 @@ export function LoginPage() {
       const message = isNetworkError
         ? 'Unable to reach the server. Please try again.'
         : status === 400 || status === 401
-          ? 'Invalid email or password.'
+          ? 'Invalid PRN/email or password.'
           : 'Unable to log in right now. Please try again.';
       setAuthError(message);
       setValue('password', '');
@@ -97,14 +97,16 @@ export function LoginPage() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label className="mb-1 block text-sm font-medium">Email</label>
+          <label className="mb-1 block text-sm font-medium">PRN or Email</label>
           <input
-            {...register('email')}
-            type="email"
+            {...register('prnOrEmail')}
+            type="text"
             className="w-full rounded-md border px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-900"
-            placeholder="name@example.com"
+            placeholder="PRN or name@example.com"
           />
-          {errors.email && <p className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.email.message}</p>}
+          {errors.prnOrEmail && (
+            <p className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.prnOrEmail.message}</p>
+          )}
         </div>
 
         <div>
@@ -126,7 +128,7 @@ export function LoginPage() {
               })}
               type={showPassword ? 'text' : 'password'}
               className={`w-full rounded-md border px-3 py-2 pr-10 text-sm dark:bg-gray-900 ${
-                authError === 'Invalid email or password.'
+                authError === 'Invalid PRN/email or password.'
                   ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500 dark:border-red-500'
                   : 'dark:border-gray-700'
               }`}
