@@ -1,7 +1,7 @@
 # CESA-SDW Portal - Frontend API Documentation
 
 > **Version:** 2.1  
-> **Base URL:** `https://sdw-portal-backend.onrender.com/api/v1` (local development: `http://localhost:5000/api/v1`; override with `VITE_API_BASE_URL`)
+> **Base URL:** `http://localhost:5000/api/v1` (replace with production domain in staging/production)
 > **Content-Type:** `application/json`
 
 ---
@@ -194,11 +194,11 @@ Authenticate using PRN or Email and Password. Returns the user object with both 
 #### Request Body
 ```json
 {
-  "prnOrEmail": "125B1B333",
+  "prnOrEmail": "acm.president23@pccoepune.org",
   "password": "Password123!"
 }
 ```
-Use either the student's case-sensitive PRN (for example, `125B1B333`) or institutional email (for example, `rudrank.suranje25@pccoepune.org`) as `prnOrEmail`. Preserve the PRN's casing.
+Use either the institutional email shown above or the student's case-sensitive PRN (for example, `123B1B001`) as `prnOrEmail`.
 
 #### Success Response (`200 OK`)
 ```json
