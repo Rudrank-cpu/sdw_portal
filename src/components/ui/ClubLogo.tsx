@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { ClubCode } from '@/types/api';
-import { AcmLogo, AcmwLogo, GdgcLogo, LfdtLogo, OwaspLogo } from './Icons';
+import { AcmLogo, AcmwLogo, GdgcLogo, IirisLogo, LfdtLogo, OwaspLogo } from './Icons';
 
 type ClubLike = {
   code?: ClubCode | string;
@@ -20,6 +20,7 @@ const officialLogosByCode: Record<string, string> = {
   GDGC: '/image/gdgc_logo.png',
   LFDT: '/image/lfdt_logo.png',
   OWASP: '/image/owasp_logo.png',
+  IIRIS: '/image/iiris_logo.png',
 };
 
 const initialsFor = (club: ClubLike) => {
@@ -53,6 +54,7 @@ export function ClubLogo({ club, size = 'md' }: { club: ClubLike; size?: keyof t
   if (code === 'GDGC') return <GdgcLogo className={`${sizeClasses[size]} shrink-0`} />;
   if (code === 'LFDT') return <LfdtLogo className={`${sizeClasses[size]} shrink-0`} />;
   if (code === 'ACM-W') return <AcmwLogo className={`${sizeClasses[size]} shrink-0`} />;
+  if (code === 'IIRIS') return <IirisLogo className={`${sizeClasses[size]} shrink-0`} />;
 
   const initials = initialsFor(club);
   return (

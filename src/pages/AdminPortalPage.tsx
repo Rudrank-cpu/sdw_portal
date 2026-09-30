@@ -48,7 +48,10 @@ const initialEventForm = {
 export function AdminPortalPage() {
   const { user, auth } = useAuthStore();
   const queryClient = useQueryClient();
-  const isMasterAdmin = user?.isMasterAdmin === true;
+  const isMasterAdmin =
+    user?.isMasterAdmin === true ||
+    auth?.isMasterAdmin === true ||
+    user?.role === "MASTER_ADMIN";
   const clubMemberships = (auth?.memberships ?? []).filter(
     (membership) =>
       canPerformInClub(auth, membership.clubId, CLUB_PERMISSIONS.EDIT_CLUB) ||

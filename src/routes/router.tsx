@@ -37,6 +37,10 @@ export const router = createBrowserRouter([
     children: [
       // Unauthenticated auth & status routes (no navbar rendered)
       { path: 'login', element: <LoginPage /> },
+      { path: 'login/student', element: <LoginPage /> },
+      { path: 'login/faculty', element: <LoginPage /> },
+      { path: 'login/club-president', element: <LoginPage /> },
+      { path: 'login/admin', element: <LoginPage /> },
       { path: 'register', element: <RegisterPage /> },
       { path: 'forgot-password', element: <PasswordRecoveryPage /> },
       { path: 'reset-password', element: <PasswordRecoveryPage /> },

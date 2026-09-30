@@ -270,3 +270,17 @@ export function AcmwLogo({ className = 'h-6 w-6' }: { className?: string }) {
     </svg>
   );
 }
+
+export function IirisLogo({ className = 'h-6 w-6' }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 100 100" fill="none">
+      <circle cx="50" cy="50" r="45" fill="#0f172a" stroke="#06b6d4" strokeWidth="4" />
+      <circle cx="50" cy="35" r="10" fill="#06b6d4" />
+      <circle cx="32" cy="62" r="7" fill="#3b82f6" />
+      <circle cx="68" cy="62" r="7" fill="#8b5cf6" />
+      <path d="M50 35 L32 62 M50 35 L68 62 M32 62 L68 62" stroke="#38bdf8" strokeWidth="3" />
+      <text x="50" y="86" fontSize="13" fontWeight="bold" fill="#38bdf8" textAnchor="middle" fontFamily="sans-serif">IIRIS</text>
+    </svg>
+  );
+}
+

@@ -14,18 +14,26 @@ export const ACM_ROLES = {
   CO_SECRETARY: "Co-Secretary",
 } as const;
 
-/** True if the user has CESA-wide admin scope (covers every club). */
+/** True if the user is the Master Admin (superuser with universal access across all clubs). */
+export const isMasterAdmin = (auth: AuthInfo | null): boolean =>
+  auth?.isMasterAdmin === true;
+
+/** True if the user has CESA-wide coordinator scope. */
 export const isCesaAdmin = (auth: AuthInfo | null): boolean =>
   auth?.isCesaAdmin === true;
 
-/** Check if the user can perform `permission` inside a specific club. */
+/**
+ * Check if the user can perform `permission` inside a specific club.
+ * Strictly ensures only Master Admin can access all clubs unconditionally.
+ * Other roles/club admins are restricted to their assigned club memberships.
+ */
 export const canPerformInClub = (
   auth: AuthInfo | null,
   clubId: string,
   permission: string,
 ): boolean => {
   if (!auth) return false;
-  if (auth.isCesaAdmin) return true; // CESA scope covers all clubs
+  if (auth.isMasterAdmin) return true; // Only Master Admin has universal access across all clubs
   const membership = auth.memberships?.find((m) => m.clubId === clubId);
   return membership?.permissions?.includes(permission) ?? false;
 };
@@ -36,7 +44,7 @@ export const hasPermissionAnywhere = (
   permission: string,
 ): boolean => {
   if (!auth) return false;
-  if (auth.isCesaAdmin) return true;
+  if (auth.isMasterAdmin) return true;
   return (
     auth.memberships?.some((m) => m.permissions?.includes(permission)) ?? false
   );

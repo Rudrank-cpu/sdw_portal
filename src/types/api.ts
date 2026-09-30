@@ -34,7 +34,7 @@ export interface PaginationMeta {
 
 // --- Core enums (section 3 of docs/api.md) --------------------------------
 
-export type ClubCode = 'ACM' | 'OWASP' | 'GDGC' | 'LFDT' | 'ACM-W';
+export type ClubCode = 'ACM' | 'OWASP' | 'GDGC' | 'LFDT' | 'ACM-W' | 'IIRIS';
 
 export type AchievementStatus =
   | 'SUBMITTED'
@@ -101,7 +101,11 @@ export interface CesaRole {
 }
 
 export interface AuthInfo {
+  isMasterAdmin?: boolean;
   isCesaAdmin: boolean;
+  isClubAdmin?: boolean;
+  adminClubs?: string[];
+  adminClubCodes?: string[];
   cesaRoles: CesaRole[];
   memberships: ClubMembership[];
 }
