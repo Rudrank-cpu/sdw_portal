@@ -115,7 +115,7 @@ export function Navbar() {
   return (
     <>
       <nav className="relative z-50 border-b border-gray-200 bg-white/85 shadow-sm backdrop-blur-xl transition-colors dark:border-gray-800 dark:bg-gray-900/80 lg:sticky lg:top-0 lg:mx-3 lg:mt-3 lg:rounded-2xl lg:border lg:shadow-lg">
-        <div className="mx-auto flex min-h-[64px] w-full max-w-7xl items-center gap-2 overflow-hidden px-4 py-3 sm:gap-3 lg:px-6">
+        <div className="flex min-h-[64px] w-full items-center gap-2 overflow-hidden px-4 py-3 sm:gap-3 lg:px-6">
 
           {/* Logo */}
           <Link
@@ -150,7 +150,7 @@ export function Navbar() {
           </div>
 
           {/* Right side */}
-          <div className="flex shrink-0 items-center gap-1.5 lg:gap-2">
+          <div className="ml-auto flex shrink-0 items-center gap-1.5 lg:gap-2">
 
             {/* Theme */}
             <button
