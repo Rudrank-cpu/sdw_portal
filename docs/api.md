@@ -194,11 +194,11 @@ Authenticate using PRN or Email and Password. Returns the user object with both 
 #### Request Body
 ```json
 {
-  "prnOrEmail": "acm.president23@pccoepune.org",
+  "prnOrEmail": "125B1B333",
   "password": "Password123!"
 }
 ```
-Use either the student's institutional email or PRN as `prnOrEmail`.
+Use either the student's case-sensitive PRN (for example, `125B1B333`) or institutional email (for example, `rudrank.suranje25@pccoepune.org`) as `prnOrEmail`. Preserve the PRN's casing.
 
 #### Success Response (`200 OK`)
 ```json

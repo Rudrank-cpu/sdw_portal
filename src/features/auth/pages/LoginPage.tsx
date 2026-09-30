@@ -71,7 +71,7 @@ export function LoginPage() {
 
   const onSubmit = (values: FormValues) => {
     setAuthError(null);
-    mutation.mutate(values);
+    mutation.mutate({ ...values, prnOrEmail: values.prnOrEmail.trim() });
   };
 
   const handleGuestLogin = () => {
@@ -101,8 +101,11 @@ export function LoginPage() {
           <input
             {...register('prnOrEmail')}
             type="text"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
             className="w-full rounded-md border px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-900"
-            placeholder="PRN or name@example.com"
+            placeholder="125B1B333 or name@example.com"
           />
           {errors.prnOrEmail && (
             <p className="mt-1 text-xs text-red-600 dark:text-red-400">{errors.prnOrEmail.message}</p>
