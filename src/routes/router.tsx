@@ -7,7 +7,7 @@ import { RootRoute } from '@/routes/RootRoute';
 
 import { LoginPage } from '@/features/auth/pages/LoginPage';
 import { RegisterPage } from '@/features/auth/pages/RegisterPage';
-import { ForgotPasswordPage } from '@/features/auth/pages/ForgotPasswordPage';
+import { PasswordRecoveryPage } from '@/features/auth/pages/PasswordRecoveryPage';
 import { ProfilePage } from '@/features/auth/pages/ProfilePage';
 
 import { ClubListPage } from '@/features/clubs/pages/ClubListPage';
@@ -38,7 +38,8 @@ export const router = createBrowserRouter([
       // Unauthenticated auth & status routes (no navbar rendered)
       { path: 'login', element: <LoginPage /> },
       { path: 'register', element: <RegisterPage /> },
-      { path: 'forgot-password', element: <ForgotPasswordPage /> },
+      { path: 'forgot-password', element: <PasswordRecoveryPage /> },
+      { path: 'reset-password', element: <PasswordRecoveryPage /> },
       { path: 'unauthorized', element: <UnauthorizedPage /> },
 
       // Root entry point: opens login if not authenticated; opens home if logged in/guest

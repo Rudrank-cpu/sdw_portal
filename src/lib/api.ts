@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { useAuthStore } from '@/store/auth';
 
-const baseURL =
+const baseURL = (
   (import.meta.env.VITE_API_BASE_URL as string | undefined) ||
-  'https://sdw-portal-backend.onrender.com/api/v1';
+  'https://sdw-portal-backend.onrender.com/api/v1'
+).trim();
 
 export const api = axios.create({ baseURL });
 

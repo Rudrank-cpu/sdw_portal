@@ -16,27 +16,16 @@ export interface LoginPayload {
 }
 
 export interface ForgotPasswordPayload {
-  prnOrEmail: string;
+  email: string;
 }
 
 export interface ForgotPasswordResponse {
   message: string;
 }
 
-export interface VerifyResetCodePayload {
-  prnOrEmail: string;
-  code: string;
-}
-
-export interface VerifyResetCodeResponse {
-  valid: boolean;
-  resetToken?: string;
-  message?: string;
-}
-
 export interface ResetPasswordPayload {
-  prnOrEmail: string;
-  code: string;
+  email: string;
+  token: string;
   newPassword: string;
 }
 

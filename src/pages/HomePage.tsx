@@ -167,12 +167,11 @@ export function HomePage() {
             <p className="mt-1 text-sm text-muted">
               Check back soon — clubs publish workshops and meets here.
             </p>
-            <Link
-              to="/clubs"
-              className="ui-button ui-button-secondary mt-4"
-            >
-              Explore Clubs
-            </Link>
+            <div className="mt-4">
+              <Link to="/clubs" className="ui-button ui-button-secondary">
+                Explore Clubs
+              </Link>
+            </div>
           </article>
         )}
       </section>
