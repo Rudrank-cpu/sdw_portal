@@ -144,3 +144,40 @@ export interface EventSummary {
   status: EventStatus;
   clubId: Pick<Club, '_id' | 'code' | 'name' | 'logoUrl'>;
 }
+
+// --- Event Report -------------------------------------------------------
+
+export interface EventReportImage {
+  url: string;
+  caption?: string;
+}
+
+export interface GeneratedContent {
+  executiveSummary?: string;
+  objectives?: string;
+  activities?: string;
+  attendanceSummary?: string;
+  outcomes?: string;
+  imageCaptions?: EventReportImage[];
+}
+
+export interface EventReport {
+  _id: string;
+  eventId: string;
+  clubId: string;
+  actualAttendeeCount: number;
+  timezone?: string;
+  topic?: string;
+  activities?: string;
+  objectives?: string;
+  outcomes?: string;
+  organizers?: string;
+  speakers?: string;
+  agenda?: string;
+  notes?: string;
+  images?: EventReportImage[];
+  generatedContent?: GeneratedContent;
+  status: 'DRAFT' | 'FINAL';
+  createdAt: string;
+  updatedAt: string;
+}

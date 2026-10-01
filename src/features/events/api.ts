@@ -1,5 +1,5 @@
 import { api } from '@/lib/api';
-import type { ApiResponse, EventMode, EventStatus, EventSummary, PaginationMeta } from '@/types/api';
+import type { ApiResponse, EventMode, EventStatus, EventSummary, PaginationMeta, EventReport, EventReportImage, GeneratedContent } from '@/types/api';
 
 export interface EventListParams {
   clubId?: string;
@@ -72,3 +72,33 @@ export const undelistEvent = (clubId: string, eventId: string) =>
   api
     .post<ApiResponse<EventSummary>>(`/clubs/${clubId}/events/${eventId}/undelist`)
     .then((r) => r.data.data);
+
+// Event Report
+export interface EventReportPayload {
+  actualAttendeeCount: number;
+  topic?: string;
+  activities?: string;
+  objectives?: string;
+  outcomes?: string;
+  organizers?: string;
+  speakers?: string;
+  agenda?: string;
+  notes?: string;
+  images?: EventReportImage[];
+}
+
+export const postEventReport = (clubId: string, eventId: string, payload: EventReportPayload) =>
+  api.post<ApiResponse<EventReport>>(`/clubs/${clubId}/events/${eventId}/report`, payload).then((r) => r.data.data);
+
+export const getEventReport = (clubId: string, eventId: string) =>
+  api.get<ApiResponse<EventReport>>(`/clubs/${clubId}/events/${eventId}/report`).then((r) => r.data.data);
+
+export const updateEventReport = (
+  clubId: string,
+  eventId: string,
+  payload: Partial<EventReportPayload> & { status?: 'DRAFT' | 'FINAL'; generatedContent?: GeneratedContent }
+) =>
+  api.patch<ApiResponse<EventReport>>(`/clubs/${clubId}/events/${eventId}/report`, payload).then((r) => r.data.data);
+
+export const downloadEventReportPdf = (clubId: string, eventId: string) =>
+  api.get(`/clubs/${clubId}/events/${eventId}/report.pdf`, { responseType: 'blob' }).then((r) => r.data);

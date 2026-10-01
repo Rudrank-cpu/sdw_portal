@@ -21,6 +21,7 @@ import { Card, ErrorMessage, Spinner } from "@/components/ui/Feedback";
 import { Button } from "@/components/ui/Button";
 import { StatusBadge } from "@/components/ui/Badge";
 import type { Club, EventMode, Year } from "@/types/api";
+import { EventReportModal } from "@/features/events/components/EventReportModal";
 import { CLUB_PERMISSIONS } from "@/lib/permissions";
 
 const errorMessage = (error: unknown, fallback: string) => {
@@ -101,6 +102,7 @@ export function AdminPortalPage() {
   });
   const [newMasterUserId, setNewMasterUserId] = useState("");
   const [message, setMessage] = useState("");
+  const [reportModalEventId, setReportModalEventId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!manageableClubs.some((club) => club._id === clubId))
@@ -645,10 +647,25 @@ export function AdminPortalPage() {
                       Delist
                     </Button>
                   )}
+                  {canApproveEvent && event.status === "COMPLETED" && (
+                    <Button
+                      size="sm"
+                      onClick={() => setReportModalEventId(event._id)}
+                    >
+                      Report
+                    </Button>
+                  )}
                 </div>
               </Card>
             ))}
           </div>
+          {reportModalEventId && (
+            <EventReportModal
+              clubId={clubId}
+              eventId={reportModalEventId}
+              onClose={() => setReportModalEventId(null)}
+            />
+          )}
         </section>
       )}
     </div>
